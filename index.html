@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tính chỉ số khối cơ thể (BMI)</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Financial Index Calculator</title>
+    
+    <!-- ========== CSS STYLES ========== -->
     <style>
+        /* === RESET & BASE STYLES === */
         * {
             margin: 0;
             padding: 0;
@@ -13,36 +15,172 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e8f5e9 0%, #e3f2fd 100%);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
             padding: 20px;
+            line-height: 1.6;
         }
 
+        /* === CONTAINER === */
         .container {
-            max-width: 500px;
-            width: 100%;
+            max-width: 900px;
             margin: 0 auto;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
         }
 
-        .calculator-card {
-            background: white;
+        /* === HEADER === */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #1e88e5 0%, #43a047 100%);
             border-radius: 20px;
-            padding: 40px 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-            animation: slideUp 0.5s ease;
+            box-shadow: 0 10px 40px rgba(30, 136, 229, 0.3);
         }
 
-        @keyframes slideUp {
+        header h1 {
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* === CALCULATOR SECTIONS === */
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .calc-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .calc-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .calc-card h2 {
+            color: #1e88e5;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #e3f2fd;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .calc-card h2 .icon {
+            font-size: 1.5rem;
+        }
+
+        /* === FORM ELEMENTS === */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #424242;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #1e88e5;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(30, 136, 229, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #9e9e9e;
+        }
+
+        /* === BUTTONS === */
+        .btn {
+            width: 100%;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 136, 229, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #43a047 0%, #2e7d32 100%);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(67, 160, 71, 0.4);
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #00acc1 0%, #00838f 100%);
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: linear-gradient(135deg, #00838f 0%, #006064 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 172, 193, 0.4);
+        }
+
+        /* === RESULT BOXES === */
+        .result-box {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(-10px);
             }
             to {
                 opacity: 1;
@@ -50,363 +188,469 @@
             }
         }
 
-        h1 {
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 40px;
-            font-size: 28px;
-            font-weight: 700;
-            position: relative;
-        }
-
-        h1::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            border-radius: 2px;
-        }
-
-        .input-group {
-            margin-bottom: 25px;
-        }
-
-        label {
+        .result-box.show {
             display: block;
+        }
+
+        .result-box.positive {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border: 2px solid #4caf50;
+        }
+
+        .result-box.negative {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            border: 2px solid #f44336;
+        }
+
+        .result-box.neutral {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border: 2px solid #2196f3;
+        }
+
+        .result-box.warning {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            border: 2px solid #ff9800;
+        }
+
+        .result-value {
+            font-size: 2rem;
+            font-weight: 700;
             margin-bottom: 8px;
-            color: #5a6c7d;
-            font-weight: 500;
-            font-size: 14px;
         }
 
-        .input-wrapper {
-            position: relative;
+        .result-label {
+            font-size: 0.95rem;
+            color: #616161;
         }
 
-        .input-wrapper input {
-            width: 100%;
-            padding: 12px 45px 12px 15px;
-            border: 2px solid #e1e8ed;
-            border-radius: 10px;
-            font-size: 16px;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s ease;
-            background: #f8f9fa;
-        }
-
-        .input-wrapper input:focus {
-            outline: none;
-            border-color: #667eea;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .input-wrapper span {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #8798ad;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .btn-calculate {
-            width: 100%;
-            padding: 14px 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-calculate:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-        }
-
-        .btn-calculate:active {
-            transform: translateY(0);
-        }
-
-        .result-container {
-            margin-top: 30px;
-            padding: 20px;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            border-radius: 15px;
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .result-container.show {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .bmi-value {
-            text-align: center;
-            margin-bottom: 15px;
-        }
-
-        .bmi-number {
-            font-size: 48px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .bmi-category {
-            text-align: center;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 18px;
-            margin-top: 10px;
+        .result-status {
             display: inline-block;
-            width: 100%;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-top: 10px;
+            font-size: 0.9rem;
         }
 
-        .underweight {
-            background-color: #3498db;
+        .status-danger {
+            background: #f44336;
             color: white;
         }
 
-        .normal {
-            background-color: #2ecc71;
+        .status-warning {
+            background: #ff9800;
             color: white;
         }
 
-        .overweight {
-            background-color: #f39c12;
+        .status-success {
+            background: #4caf50;
             color: white;
         }
 
-        .obese {
-            background-color: #e74c3c;
-            color: white;
+        /* === FORMULA INFO === */
+        .formula-info {
+            background: #f5f5f5;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+            color: #757575;
+            border-left: 4px solid #1e88e5;
         }
 
-        .bmi-info {
-            margin-top: 20px;
-            padding: 15px;
-            background: white;
-            border-radius: 10px;
-            font-size: 14px;
-            color: #5a6c7d;
-            line-height: 1.6;
+        .formula-info code {
+            background: #e3f2fd;
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: #1565c0;
+            font-weight: 600;
         }
 
-        .bmi-info h3 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-size: 16px;
+        /* === FFI FULL WIDTH === */
+        .full-width {
+            grid-column: 1 / -1;
         }
 
-        .bmi-info ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .bmi-info li {
-            padding: 5px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .bmi-info li:last-child {
-            border-bottom: none;
-        }
-
+        /* === FOOTER === */
         footer {
             text-align: center;
-            padding: 20px;
-            color: white;
-            font-size: 14px;
-            margin-top: 40px;
+            padding: 25px;
+            color: #757575;
+            font-size: 0.9rem;
         }
 
-        .error-message {
-            color: #e74c3c;
-            font-size: 12px;
-            margin-top: 5px;
-            display: none;
+        footer a {
+            color: #1e88e5;
+            text-decoration: none;
         }
 
-        /* Responsive Design */
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.7rem;
+            }
+
+            header p {
+                font-size: 1rem;
+            }
+
+            .calc-card {
+                padding: 20px;
+            }
+
+            .calc-card h2 {
+                font-size: 1.1rem;
+            }
+
+            .result-value {
+                font-size: 1.6rem;
+            }
+        }
+
         @media (max-width: 480px) {
-            .calculator-card {
-                padding: 30px 20px;
+            body {
+                padding: 15px;
             }
 
-            h1 {
-                font-size: 24px;
+            header {
+                padding: 25px 15px;
             }
 
-            .bmi-number {
-                font-size: 36px;
+            header h1 {
+                font-size: 1.4rem;
             }
 
-            .btn-calculate {
-                font-size: 14px;
+            .calculator-grid {
+                gap: 20px;
+            }
+
+            .form-group input {
+                padding: 12px 14px;
+            }
+
+            .btn {
                 padding: 12px 20px;
             }
         }
+
+        /* === HELPER CLASSES === */
+        .text-positive { color: #2e7d32; }
+        .text-negative { color: #c62828; }
+        .text-neutral { color: #1565c0; }
+        .text-warning { color: #ef6c00; }
     </style>
 </head>
 <body>
+    <!-- ========== MAIN CONTAINER ========== -->
     <div class="container">
-        <div class="calculator-card">
-            <h1>Tính chỉ số khối cơ thể (BMI)</h1>
+        
+        <!-- === HEADER === -->
+        <header>
+            <h1>💰 Financial Index Calculator</h1>
+            <p>Công cụ tính toán chỉ số tài chính cá nhân</p>
+        </header>
+
+        <!-- === CALCULATOR CARDS === -->
+        <div class="calculator-grid">
             
-            <div class="input-group">
-                <label for="height">Chiều cao</label>
-                <div class="input-wrapper">
-                    <input type="number" id="height" placeholder="Nhập chiều cao của bạn" min="1" max="300" step="0.1">
-                    <span>cm</span>
-                </div>
-                <div class="error-message" id="height-error">Vui lòng nhập chiều cao hợp lệ (1-300 cm)</div>
-            </div>
-
-            <div class="input-group">
-                <label for="weight">Cân nặng</label>
-                <div class="input-wrapper">
-                    <input type="number" id="weight" placeholder="Nhập cân nặng của bạn" min="1" max="500" step="0.1">
-                    <span>kg</span>
-                </div>
-                <div class="error-message" id="weight-error">Vui lòng nhập cân nặng hợp lệ (1-500 kg)</div>
-            </div>
-
-            <button class="btn-calculate" onclick="calculateBMI()">Tính BMI</button>
-
-            <div class="result-container" id="result">
-                <div class="bmi-value">
-                    <div class="bmi-number" id="bmi-value">0</div>
-                    <div class="bmi-category" id="bmi-category">Chưa xác định</div>
-                </div>
+            <!-- === 1. TIẾT KIỆM HÀNG THÁNG === -->
+            <div class="calc-card">
+                <h2><span class="icon">💵</span> Tiết kiệm hàng tháng</h2>
                 
-                <div class="bmi-info">
-                    <h3>Phân loại BMI theo WHO:</h3>
-                    <ul>
-                        <li>🔵 Dưới 18.5: Gầy</li>
-                        <li>🟢 18.5 – 24.9: Bình thường</li>
-                        <li>🟡 25 – 29.9: Thừa cân</li>
-                        <li>🔴 ≥ 30: Béo phì</li>
-                    </ul>
+                <!-- Công thức -->
+                <div class="formula-info">
+                    <code>Tiết kiệm = Thu nhập - Chi tiêu</code>
+                </div>
+
+                <!-- Form nhập liệu -->
+                <div class="form-group">
+                    <label for="income">Thu nhập hàng tháng (VNĐ)</label>
+                    <input type="number" id="income" placeholder="VD: 20000000" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="expense">Chi tiêu hàng tháng (VNĐ)</label>
+                    <input type="number" id="expense" placeholder="VD: 15000000" min="0">
+                </div>
+
+                <button class="btn btn-primary" onclick="calculateSavings()">
+                    Tính tiết kiệm
+                </button>
+
+                <!-- Kết quả -->
+                <div id="savings-result" class="result-box">
+                    <div class="result-value" id="savings-value">0 VNĐ</div>
+                    <div class="result-label" id="savings-label">Số tiền tiết kiệm mỗi tháng</div>
                 </div>
             </div>
+
+            <!-- === 2. THỜI GIAN ĐẠT MỤC TIÊU === -->
+            <div class="calc-card">
+                <h2><span class="icon">🎯</span> Thời gian đạt mục tiêu</h2>
+                
+                <!-- Công thức -->
+                <div class="formula-info">
+                    <code>Số tháng = Mục tiêu / Tiết kiệm</code>
+                </div>
+
+                <!-- Form nhập liệu -->
+                <div class="form-group">
+                    <label for="goal">Mục tiêu tài chính (VNĐ)</label>
+                    <input type="number" id="goal" placeholder="VD: 100000000" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="monthly-saving">Tiết kiệm hàng tháng (VNĐ)</label>
+                    <input type="number" id="monthly-saving" placeholder="VD: 5000000" min="0">
+                </div>
+
+                <button class="btn btn-success" onclick="calculateGoalTime()">
+                    Tính thời gian
+                </button>
+
+                <!-- Kết quả -->
+                <div id="goal-result" class="result-box">
+                    <div class="result-value" id="goal-value">0 tháng</div>
+                    <div class="result-label" id="goal-label">Thời gian cần thiết</div>
+                </div>
+            </div>
+
+            <!-- === 3. CHỈ SỐ TỰ DO TÀI CHÍNH (FFI) === -->
+            <div class="calc-card full-width">
+                <h2><span class="icon">🏆</span> Chỉ số Tự do Tài chính (FFI)</h2>
+                
+                <!-- Công thức -->
+                <div class="formula-info">
+                    <code>FFI = Tài sản hiện có / Chi tiêu hàng tháng</code>
+                    <br><br>
+                    📊 <strong>Phân loại:</strong> 
+                    FFI &lt; 6 → Chưa an toàn | 
+                    6-12 → An toàn cơ bản | 
+                    &gt; 12 → Tự do tài chính tốt
+                </div>
+
+                <!-- Form nhập liệu - Grid layout -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                    <div class="form-group">
+                        <label for="assets">Tài sản hiện có (VNĐ)</label>
+                        <input type="number" id="assets" placeholder="VD: 500000000" min="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="monthly-expense">Chi tiêu hàng tháng (VNĐ)</label>
+                        <input type="number" id="monthly-expense" placeholder="VD: 15000000" min="0">
+                    </div>
+                </div>
+
+                <button class="btn btn-info" onclick="calculateFFI()">
+                    Tính chỉ số FFI
+                </button>
+
+                <!-- Kết quả -->
+                <div id="ffi-result" class="result-box">
+                    <div class="result-value" id="ffi-value">0</div>
+                    <div class="result-label">Chỉ số Tự do Tài chính</div>
+                    <div class="result-status" id="ffi-status">Đang tính...</div>
+                    <div class="result-label" id="ffi-meaning" style="margin-top: 15px; font-style: italic;"></div>
+                </div>
+            </div>
+
         </div>
+
+        <!-- === FOOTER === -->
+        <footer>
+            <p>© 2024 Financial Index Calculator | Được tạo với ❤️</p>
+            <p>Sử dụng miễn phí - <a href="#">Hướng dẫn sử dụng</a></p>
+        </footer>
+
     </div>
 
-    <footer>
-        © 2025 - Ứng dụng tính BMI tự động – Thiết kế bởi Quách Hoàng Bảo
-    </footer>
-
+    <!-- ========== JAVASCRIPT ========== -->
     <script>
-        function calculateBMI() {
-            // Reset error messages
-            document.getElementById('height-error').style.display = 'none';
-            document.getElementById('weight-error').style.display = 'none';
+        /**
+         * ===================================
+         * FINANCIAL INDEX CALCULATOR
+         * ===================================
+         * Các hàm tính toán chỉ số tài chính cá nhân
+         */
 
-            // Get input values
-            const height = parseFloat(document.getElementById('height').value);
-            const weight = parseFloat(document.getElementById('weight').value);
+        // === HELPER FUNCTION: Format số tiền VNĐ ===
+        function formatCurrency(number) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
+                maximumFractionDigits: 0
+            }).format(number);
+        }
 
-            // Validate inputs
-            let hasError = false;
+        // === HELPER FUNCTION: Format số với dấu phẩy ===
+        function formatNumber(number) {
+            return new Intl.NumberFormat('vi-VN').format(number);
+        }
 
-            if (!height || height < 1 || height > 300) {
-                document.getElementById('height-error').style.display = 'block';
-                hasError = true;
+        // === 1. TÍNH TIẾT KIỆM HÀNG THÁNG ===
+        function calculateSavings() {
+            // Lấy giá trị từ input
+            const income = parseFloat(document.getElementById('income').value) || 0;
+            const expense = parseFloat(document.getElementById('expense').value) || 0;
+
+            // Tính toán
+            const savings = income - expense;
+
+            // Hiển thị kết quả
+            const resultBox = document.getElementById('savings-result');
+            const resultValue = document.getElementById('savings-value');
+            const resultLabel = document.getElementById('savings-label');
+
+            // Xóa class cũ và thêm class mới dựa trên kết quả
+            resultBox.className = 'result-box show';
+            
+            if (savings > 0) {
+                resultBox.classList.add('positive');
+                resultValue.className = 'result-value text-positive';
+                resultLabel.textContent = '✅ Bạn đang tiết kiệm được mỗi tháng';
+            } else if (savings < 0) {
+                resultBox.classList.add('negative');
+                resultValue.className = 'result-value text-negative';
+                resultLabel.textContent = '⚠️ Bạn đang chi tiêu vượt thu nhập!';
+            } else {
+                resultBox.classList.add('neutral');
+                resultValue.className = 'result-value text-neutral';
+                resultLabel.textContent = '💡 Thu chi cân bằng, hãy cố gắng tiết kiệm hơn';
             }
 
-            if (!weight || weight < 1 || weight > 500) {
-                document.getElementById('weight-error').style.display = 'block';
-                hasError = true;
-            }
+            resultValue.textContent = formatCurrency(savings);
+        }
 
-            if (hasError) {
-                document.getElementById('result').classList.remove('show');
+        // === 2. TÍNH THỜI GIAN ĐẠT MỤC TIÊU ===
+        function calculateGoalTime() {
+            // Lấy giá trị từ input
+            const goal = parseFloat(document.getElementById('goal').value) || 0;
+            const monthlySaving = parseFloat(document.getElementById('monthly-saving').value) || 0;
+
+            // Hiển thị kết quả
+            const resultBox = document.getElementById('goal-result');
+            const resultValue = document.getElementById('goal-value');
+            const resultLabel = document.getElementById('goal-label');
+
+            resultBox.className = 'result-box show';
+
+            // Kiểm tra điều kiện hợp lệ
+            if (monthlySaving <= 0) {
+                resultBox.classList.add('negative');
+                resultValue.className = 'result-value text-negative';
+                resultValue.textContent = 'Không thể tính';
+                resultLabel.textContent = '⚠️ Cần có số tiền tiết kiệm lớn hơn 0';
                 return;
             }
 
-            // Calculate BMI
-            const heightInMeters = height / 100;
-            const bmi = weight / (heightInMeters * heightInMeters);
-            const bmiRounded = bmi.toFixed(1);
-
-            // Determine category
-            let category = '';
-            let categoryClass = '';
-
-            if (bmi < 18.5) {
-                category = 'Gầy';
-                categoryClass = 'underweight';
-            } else if (bmi >= 18.5 && bmi < 25) {
-                category = 'Bình thường';
-                categoryClass = 'normal';
-            } else if (bmi >= 25 && bmi < 30) {
-                category = 'Thừa cân';
-                categoryClass = 'overweight';
-            } else {
-                category = 'Béo phì';
-                categoryClass = 'obese';
+            if (goal <= 0) {
+                resultBox.classList.add('warning');
+                resultValue.className = 'result-value text-warning';
+                resultValue.textContent = 'Chưa có mục tiêu';
+                resultLabel.textContent = '💡 Vui lòng nhập mục tiêu tài chính của bạn';
+                return;
             }
 
-            // Display results
-            document.getElementById('bmi-value').textContent = bmiRounded;
-            const categoryElement = document.getElementById('bmi-category');
-            categoryElement.textContent = category;
-            categoryElement.className = 'bmi-category ' + categoryClass;
+            // Tính toán
+            const months = Math.ceil(goal / monthlySaving);
+            const years = Math.floor(months / 12);
+            const remainingMonths = months % 12;
 
-            // Show result container
-            document.getElementById('result').classList.add('show');
+            // Hiển thị kết quả
+            resultBox.classList.add('positive');
+            resultValue.className = 'result-value text-positive';
+            
+            if (years > 0) {
+                resultValue.textContent = `${years} năm ${remainingMonths} tháng`;
+            } else {
+                resultValue.textContent = `${months} tháng`;
+            }
 
-            // Scroll to result (for mobile)
-            setTimeout(() => {
-                document.getElementById('result').scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'nearest' 
-                });
-            }, 100);
+            resultLabel.textContent = `🎯 Để đạt mục tiêu ${formatCurrency(goal)}`;
         }
 
-        // Allow Enter key to calculate
-        document.getElementById('height').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') calculateBMI();
-        });
+        // === 3. TÍNH CHỈ SỐ TỰ DO TÀI CHÍNH (FFI) ===
+        function calculateFFI() {
+            // Lấy giá trị từ input
+            const assets = parseFloat(document.getElementById('assets').value) || 0;
+            const monthlyExpense = parseFloat(document.getElementById('monthly-expense').value) || 0;
 
-        document.getElementById('weight').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') calculateBMI();
-        });
+            // Hiển thị kết quả
+            const resultBox = document.getElementById('ffi-result');
+            const resultValue = document.getElementById('ffi-value');
+            const resultStatus = document.getElementById('ffi-status');
+            const resultMeaning = document.getElementById('ffi-meaning');
 
-        // Clear result when input changes
-        document.getElementById('height').addEventListener('input', function() {
-            document.getElementById('height-error').style.display = 'none';
-        });
+            resultBox.className = 'result-box show';
 
-        document.getElementById('weight').addEventListener('input', function() {
-            document.getElementById('weight-error').style.display = 'none';
+            // Kiểm tra điều kiện hợp lệ
+            if (monthlyExpense <= 0) {
+                resultBox.classList.add('warning');
+                resultValue.className = 'result-value text-warning';
+                resultValue.textContent = 'Không thể tính';
+                resultStatus.className = 'result-status status-warning';
+                resultStatus.textContent = 'Thiếu dữ liệu';
+                resultMeaning.textContent = 'Vui lòng nhập chi tiêu hàng tháng lớn hơn 0';
+                return;
+            }
+
+            // Tính toán FFI
+            const ffi = assets / monthlyExpense;
+
+            // Hiển thị giá trị FFI
+            resultValue.textContent = ffi.toFixed(2);
+
+            // Phân loại và hiển thị trạng thái
+            if (ffi < 6) {
+                // FFI < 6: Chưa an toàn
+                resultBox.classList.add('negative');
+                resultValue.className = 'result-value text-negative';
+                resultStatus.className = 'result-status status-danger';
+                resultStatus.textContent = '⚠️ Chưa an toàn';
+                resultMeaning.textContent = `Tài sản của bạn chỉ đủ chi tiêu trong ${ffi.toFixed(1)} tháng. Cần tích lũy thêm để đảm bảo an toàn tài chính.`;
+            } else if (ffi >= 6 && ffi <= 12) {
+                // FFI 6-12: An toàn cơ bản
+                resultBox.classList.add('warning');
+                resultValue.className = 'result-value text-warning';
+                resultStatus.className = 'result-status status-warning';
+                resultStatus.textContent = '✓ An toàn cơ bản';
+                resultMeaning.textContent = `Tài sản của bạn đủ chi tiêu trong ${ffi.toFixed(1)} tháng. Bạn có quỹ dự phòng tốt, hãy tiếp tục tích lũy!`;
+            } else {
+                // FFI > 12: Tự do tài chính tốt
+                resultBox.classList.add('positive');
+                resultValue.className = 'result-value text-positive';
+                resultStatus.className = 'result-status status-success';
+                resultStatus.textContent = '🏆 Tự do tài chính tốt';
+                resultMeaning.textContent = `Tuyệt vời! Tài sản của bạn đủ chi tiêu trong ${ffi.toFixed(1)} tháng (${(ffi/12).toFixed(1)} năm). Bạn đang trên đường tự do tài chính!`;
+            }
+        }
+
+        // === KHỞI TẠO: Thêm sự kiện Enter cho các input ===
+        document.addEventListener('DOMContentLoaded', function() {
+            // Nhóm 1: Tiết kiệm hàng tháng
+            document.getElementById('income').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') calculateSavings();
+            });
+            document.getElementById('expense').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') calculateSavings();
+            });
+
+            // Nhóm 2: Thời gian đạt mục tiêu
+            document.getElementById('goal').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') calculateGoalTime();
+            });
+            document.getElementById('monthly-saving').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') calculateGoalTime();
+            });
+
+            // Nhóm 3: Chỉ số FFI
+            document.getElementById('assets').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') calculateFFI();
+            });
+            document.getElementById('monthly-expense').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') calculateFFI();
+            });
         });
     </script>
 </body>
